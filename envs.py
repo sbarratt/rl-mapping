@@ -62,7 +62,7 @@ class MappingEnvironment(object):
     def reset(self):
         # generate new map
         if self.prims:
-            self.map = self.prims()
+            self.map = self.generate_map_prims()
         else:
             self.map = np.random.choice([0, 1], p=[1-self.p, self.p], size=(self.N, self.N))
 
@@ -89,7 +89,7 @@ class MappingEnvironment(object):
                 nfinal.append((r+dr, c+dc))
         return nfinal
 
-    def prims(self):
+    def generate_map_prims(self):
         # Start with a grid of filled cells
         map = np.ones((self.N, self.N))
         visited = np.zeros((self.N, self.N))
