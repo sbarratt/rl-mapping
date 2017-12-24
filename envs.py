@@ -188,7 +188,6 @@ class MappingEnvironment(object):
 
         # reward is decrease in entropy
         reward = np.sum(self.calc_entropy(self.l_t)) - np.sum(self.calc_entropy(new_l_t))
-        reward *= .99**(self.t)
 
         # Check if done
         done = False
