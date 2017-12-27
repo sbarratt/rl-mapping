@@ -92,17 +92,13 @@ class ResidualBlock(nn.Module):
         super(ResidualBlock, self).__init__()
 
         self.nc = nc
-        self.conv1 = nn.Conv2d(self.nc, 64, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(64)
-        self.conv2 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(64)
+        self.conv1 = nn.Conv2d(self.nc, 32, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1)
 
     def forward(self, x):
         out = self.conv1(x)
-        out = self.bn1(out)
         out = F.relu(out)
         out = self.conv2(out)
-        out = self.bn2(out)
         out += x
         out = F.relu(out)
 
@@ -115,21 +111,19 @@ class ResNetActorCritic(nn.Module):
         self.nc = nc
         self.na = na
 
-        self.conv1 = nn.Conv2d(self.nc, 64, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(64)
-        self.tower = nn.Sequential(*[ResidualBlock(64) for _ in range(6)])
+        self.conv1 = nn.Conv2d(self.nc, 32, kernel_size=3, stride=1, padding=1)
+        self.tower = nn.Sequential(*[ResidualBlock(32) for _ in range(6)])
 
-        self.linear = nn.Linear(64*self.H_in*self.H_in, 256)
+        self.linear = nn.Linear(32*self.H_in*self.H_in, 256)
         self.policy_linear = nn.Linear(256, self.na)
         self.critic_linear = nn.Linear(256, 1)
 
     def forward(self, x):
         x = self.conv1(x)
-        x = self.bn1(x)
         x = F.relu(x)
 
         x = self.tower(x)
-        x = x.view(-1, 64*self.H_in*self.H_in)
+        x = x.view(-1, 32*self.H_in*self.H_in)
 
         x = self.linear(x)
         x = F.relu(x)

@@ -190,7 +190,7 @@ while episodes < opt.N_episodes:
 
     np.save(os.path.join(opt.experiment, 'results'), ep_rewards)
 
-    torch.save(actor_critic.state_dict(), os.path.join(opt.experiment, 'actor_critic_episode%d.torch' % episodes))
+torch.save(actor_critic.state_dict(), os.path.join(opt.experiment, 'actor_critic_episode%d.torch' % episodes))
 np.save(os.path.join(opt.experiment, 'results'), ep_rewards)
 
 rewards = []
