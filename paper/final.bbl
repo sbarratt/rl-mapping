@@ -1,0 +1,70 @@
+\begin{thebibliography}{10}
+
+\bibitem{thrun2005probabilistic}
+Sebastian Thrun, Wolfram Burgard, and Dieter Fox.
+\newblock {\em Probabilistic robotics}.
+\newblock MIT press, 2005.
+
+\bibitem{leonard1991mobile}
+John~J Leonard and Hugh~F Durrant-Whyte.
+\newblock Mobile robot localization by tracking geometric beacons.
+\newblock {\em IEEE Transactions on robotics and Automation}, 7(3):376--382,
+  1991.
+
+\bibitem{elfes1989using}
+Alberto Elfes.
+\newblock Using occupancy grids for mobile robot perception and navigation.
+\newblock {\em Computer}, 22(6):46--57, 1989.
+
+\bibitem{yamauchi1997frontier}
+Brian Yamauchi.
+\newblock A frontier-based approach for autonomous exploration.
+\newblock In {\em Computational Intelligence in Robotics and Automation, 1997.
+  CIRA'97., Proceedings., 1997 IEEE International Symposium on}, pages
+  146--151. IEEE, 1997.
+
+\bibitem{bourgault2002information}
+Frederic Bourgault, Alexei~A Makarenko, Stefan~B Williams, Ben Grocholsky, and
+  Hugh~F Durrant-Whyte.
+\newblock Information based adaptive robotic exploration.
+\newblock In {\em Intelligent Robots and Systems, 2002. IEEE/RSJ International
+  Conference on}, volume~1, pages 540--545. IEEE, 2002.
+
+\bibitem{yamauchi1998frontier}
+Brian Yamauchi.
+\newblock Frontier-based exploration using multiple robots.
+\newblock In {\em Proceedings of the second international conference on
+  Autonomous agents}, pages 47--53. ACM, 1998.
+
+\bibitem{sutton1998reinforcement}
+Richard~S Sutton and Andrew~G Barto.
+\newblock {\em Reinforcement learning: An introduction}, volume~1.
+\newblock MIT press Cambridge, 1998.
+
+\bibitem{mnih2016asynchronous}
+Volodymyr Mnih, Adria~Puigdomenech Badia, Mehdi Mirza, Alex Graves, Timothy
+  Lillicrap, Tim Harley, David Silver, and Koray Kavukcuoglu.
+\newblock Asynchronous methods for deep reinforcement learning.
+\newblock In {\em International Conference on Machine Learning}, pages
+  1928--1937, 2016.
+
+\bibitem{he2016deep}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep residual learning for image recognition.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 770--778, 2016.
+
+\bibitem{PyTorch}
+Pytorch.
+\newblock \url{http://www.pytorch.org}.
+
+\bibitem{kingma2014adam}
+Diederik Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock {\em arXiv preprint arXiv:1412.6980}, 2014.
+
+\bibitem{nal}
+Neural active localization, 2017.
+\newblock \url{https://openreview.net/forum?id=ry6-G_66b}.
+
+\end{thebibliography}

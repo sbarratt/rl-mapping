@@ -63,7 +63,7 @@ with open(os.path.join(opt.experiment, 'config.txt'), 'w') as f:
 # Initialize sensor
 if opt.sensor_type == 'local':
     ism_proto = lambda x: LocalISM(x, span=opt.sensor_span, p_correct=opt.sensor_p)
-if opt.sensor_type == 'range':
+elif opt.sensor_type == 'range':
     ism_proto = lambda x: RangeISM(x)
 else:
     raise Exception('sensor type not supported.')
@@ -96,6 +96,7 @@ else:
 
 # Initialize necessary variables
 obs = env.reset()
+env.render(reset=True)
 done = False
 t = 0
 episodes = 0
@@ -121,6 +122,8 @@ while episodes < opt.N_episodes:
 
         # Receive reward r_t and new state s_t+1
         obs, reward, done, info = env.step(a)
+        env.render()
+        input('enter')
         t += 1
 
         observations.append(obs_npy)

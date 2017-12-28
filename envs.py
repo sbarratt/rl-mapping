@@ -59,12 +59,16 @@ class RangeISM(object):
     def log_odds(self, pose):
         l = np.zeros((self.N, self.N))
 
-        for pos in bresenham(pose.x, pose.y, pose.x + int(self.N*np.cos(np.pi/2 + pose.orientation)), pose.y + int(self.N*np.sin(np.pi/2 + pose.orientation))):
-            if self.map[pos[0], pos[1]] or pos[0] < 0 or pos[1] < 0 or pos[0] > self.N or pos[1] > self.N:
+        b = list(bresenham(pose.x, pose.y, pose.x + 10*int(self.N*np.cos(np.pi/2 + pose.orientation)), pose.y + 10*int(self.N*np.sin(np.pi/2 + pose.orientation))))
+        for i, pos in enumerate(b):
+            if b[i+1][0] < 0 or b[i+1][1] < 0 or b[i+1][0] >= self.N or b[i+1][1] >= self.N:
+                break
+            elif self.map[pos[0], pos[1]]:
                 l[pos[0], pos[1]] = float("inf")
+                break
             else:
                 l[pos[0], pos[1]] = -float("inf")
-
+        l[pose.x, pose.y] = -float("inf")
         return l
 
 class MappingEnvironment(object):
@@ -201,7 +205,7 @@ class MappingEnvironment(object):
         if self.legal_change_in_pose(self.pose, dx, dy):
             self.pose.x += dx
             self.pose.y += dy
-            self.orientation = (self.orientation + dr) % 360
+            self.pose.orientation = (self.pose.orientation + dr) % 360
 
         # bayes filter
         new_l_t = self.l_t + self.ism.log_odds(self.pose)

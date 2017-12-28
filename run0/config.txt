@@ -1,0 +1,1 @@
+Namespace(N=25, N_episodes=1000, anneal_gamma=0.5, anneal_step_size=100, cuda=False, episode_length=200, experiment='run0/', gamma=0.98, lambda_entropy=0.01, lr=0.001, map_p=0.1, max_grad_norm=50.0, max_steps=20, network='mlp', optimizer='adam', prims=False, seed=8915, sensor_p=0.8, sensor_span=2, sensor_type='range')
