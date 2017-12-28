@@ -13,8 +13,8 @@ ACTIONS = {
     1: (-1, 0, 0), # up
     2: (0, 1, 0), # right
     3: (0, -1, 0), # left
-    4: (0, 0, -10), # rotate left
-    5: (0, 0, 10), # rotate right
+    4: (0, 0, -30), # rotate left
+    5: (0, 0, 30), # rotate right
 }
 
 class Pose:
@@ -57,18 +57,19 @@ class RangeISM(object):
         self.N = self.map.shape[0]
 
     def log_odds(self, pose):
+        print (pose.x, pose.y, pose.orientation)
         l = np.zeros((self.N, self.N))
 
-        b = list(bresenham(pose.x, pose.y, pose.x + 10*int(self.N*np.cos(np.pi/2 + pose.orientation)), pose.y + 10*int(self.N*np.sin(np.pi/2 + pose.orientation))))
+        b = list(bresenham(pose.x, pose.y, pose.x + 10*int(self.N*np.cos(pose.orientation*np.pi/180)), pose.y + 10*int(self.N*np.sin(pose.orientation*np.pi/180))))
         for i, pos in enumerate(b):
             if b[i+1][0] < 0 or b[i+1][1] < 0 or b[i+1][0] >= self.N or b[i+1][1] >= self.N:
                 break
             elif self.map[pos[0], pos[1]]:
-                l[pos[0], pos[1]] = float("inf")
+                l[pos[0], pos[1]] = 2
                 break
             else:
-                l[pos[0], pos[1]] = -float("inf")
-        l[pose.x, pose.y] = -float("inf")
+                l[pos[0], pos[1]] = -2
+        l[pose.x, pose.y] = -2
         return l
 
 class MappingEnvironment(object):

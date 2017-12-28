@@ -96,7 +96,6 @@ else:
 
 # Initialize necessary variables
 obs = env.reset()
-env.render(reset=True)
 done = False
 t = 0
 episodes = 0
@@ -122,8 +121,6 @@ while episodes < opt.N_episodes:
 
         # Receive reward r_t and new state s_t+1
         obs, reward, done, info = env.step(a)
-        env.render()
-        input('enter')
         t += 1
 
         observations.append(obs_npy)
