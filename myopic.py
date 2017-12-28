@@ -74,5 +74,6 @@ for k in range(1000):
 
         R += reward
     print (R)
+    rewards.append(R)
 
 np.save(os.path.join(opt.experiment, 'rewards_test'), rewards)

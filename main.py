@@ -2,7 +2,7 @@ import argparse
 import os
 import random
 
-from envs import MappingEnvironment, LocalISM
+from envs import MappingEnvironment, LocalISM, RangeISM
 from model import CNNActorCritic, MLPActorCritic, ResNetActorCritic, LinearActorCritic
 from distributions import Multinomial
 
@@ -63,6 +63,8 @@ with open(os.path.join(opt.experiment, 'config.txt'), 'w') as f:
 # Initialize sensor
 if opt.sensor_type == 'local':
     ism_proto = lambda x: LocalISM(x, span=opt.sensor_span, p_correct=opt.sensor_p)
+if opt.sensor_type == 'range':
+    ism_proto = lambda x: RangeISM(x)
 else:
     raise Exception('sensor type not supported.')
 

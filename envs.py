@@ -1,6 +1,6 @@
 import numpy as np
 import random
-import IPython as ipy
+from bresenham import bresenham
 
 def safe_log(x):
     if x <= 0.:
@@ -9,16 +9,19 @@ def safe_log(x):
 safe_log = np.vectorize(safe_log)
 
 ACTIONS = {
-    0: (1, 0), # down
-    1: (-1, 0), # up
-    2: (0, 1), # right
-    3: (0, -1), # left
+    0: (1, 0, 0), # down
+    1: (-1, 0, 0), # up
+    2: (0, 1, 0), # right
+    3: (0, -1, 0), # left
+    4: (0, 0, -10), # rotate left
+    5: (0, 0, 10), # rotate right
 }
 
 class Pose:
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0, orientation=0):
         self.x = x
         self.y = y
+        self.orientation = orientation
 
 class LocalISM(object):
     def __init__(self, map, span=1, p_correct=.9):
@@ -45,6 +48,22 @@ class LocalISM(object):
                     else:
                         l[i, j] = np.log(self.p_correct / (1-self.p_correct))
         l[pose.x, pose.y] = -float("inf")
+
+        return l
+
+class RangeISM(object):
+    def __init__(self, map):
+        self.map = map
+        self.N = self.map.shape[0]
+
+    def log_odds(self, pose):
+        l = np.zeros((self.N, self.N))
+
+        for pos in bresenham(pose.x, pose.y, pose.x + int(self.N*np.cos(np.pi/2 + pose.orientation)), pose.y + int(self.N*np.sin(np.pi/2 + pose.orientation))):
+            if self.map[pos[0], pos[1]] or pos[0] < 0 or pos[1] < 0 or pos[0] > self.N or pos[1] > self.N:
+                l[pos[0], pos[1]] = float("inf")
+            else:
+                l[pos[0], pos[1]] = -float("inf")
 
         return l
 
@@ -178,10 +197,11 @@ class MappingEnvironment(object):
         self.t += 1
 
         # Perform action
-        dx, dy = ACTIONS[a]
+        dx, dy, dr = ACTIONS[a]
         if self.legal_change_in_pose(self.pose, dx, dy):
             self.pose.x += dx
             self.pose.y += dy
+            self.orientation = (self.orientation + dr) % 360
 
         # bayes filter
         new_l_t = self.l_t + self.ism.log_odds(self.pose)
