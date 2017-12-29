@@ -223,7 +223,7 @@ All of the architectures are implemented in PyTorch \cite{PyTorch} and the code 
 
 \subsection{Training Details}
 
-We use a discount rate $\gamma=.99$ and episode length of $200$. We use $20$ steps until an A2C update. We run the learning algorithm for $10$k episodes, resulting in $100$k gradient updates to the actor-critic. We use the ADAM \cite{kingma2014adam} optimization algorithm with a learning rate of $10^{-4}$ annealed every $1$k episodes by a multiplicative factor of $.5$. We set the maximum gradient norm of an update to be $50$. We use an entropy regularization constant of $.001$ for the A2C updates. Even though we have a $.1$ prior over maps, we initialize the belief map with all $.5$ to guarantee that the entropy will decrease. The features are also linearly scaled to be in the range $[-1, 1]$. For all other implementation details, the reader is referred to the source code.
+We use a discount rate $\gamma=.99$ and episode length of $300$. The agent runs for $20$ steps until an A2C update. We run the learning algorithm ADAM for $12.5$k episodes, resulting in $100$k gradient updates to the actor-critic\cite{kingma2014adam}. We use a learning rate of $10^{-4}$ annealed every $5$k episodes by a multiplicative factor of $.5$. We set the maximum gradient norm of an update to be $50$. We use an entropy regularization constant of $.001$ for the A2C updates. Even though we have a $.1$ prior over maps, we initialize the belief map with all $.5$ to guarantee that the entropy will decrease. The features are also linearly scaled to be in the range $[-1, 1]$. For all other implementation details, the reader is referred to the source code.
 
 \subsection{Results}
 
@@ -236,7 +236,7 @@ We first compare the training characteristics of the three network architectures
     \includegraphics[scale=.3]{figs/learningcurve.pdf}
 \end{figure}
 
-After the training procedure, we evaluate all of the networks, the myopic exploration strategy and a random exploration strategy on $1000$ random, unseen maps. We present the average full episode rewards in Table~\ref{tab:results}. Ultimately, the CNN-MLP and ResNet architecture outperform the hand-crafted myopic exploration strategy. This leads us to believe that this training methodology could scale to more complex inverse sensor models where designing myopic exploration strategies is infeasible.
+After the training procedure, we evaluate all of the networks, the myopic exploration strategy and a random exploration strategy on $1000$ random, unseen maps. We present the average full episode rewards in Table~\ref{tab:results}. Ultimately, the ResNet architecture outperforms the hand-crafted myopic exploration strategy. This leads us to believe that this training methodology could scale to more complex inverse sensor models where designing myopic exploration strategies is infeasible.
 
 \begin{table}[H]
   \caption{Episode Rewards averaged over 1000 out-of-sample episodes.}
@@ -246,9 +246,9 @@ After the training procedure, we evaluate all of the networks, the myopic explor
     \toprule
     Approach & Performance \\
     \midrule
-    ResNet   & $253.76 \ \rpm \ 48.28$  \\
-    CNN-MLP  & $257.84 \ \rpm \ 37.85$ \\
-    MLP      & $173.01 \ \rpm \ 63.06$ \\
+    ResNet   & $\mathbf{254.87} \ \rpm \ 47.26$  \\
+    CNN-MLP  & $201.20 \ \rpm \ 47.25$ \\
+    MLP      & $184.61 \ \rpm \ 75.75$ \\
     Myopic   & $251.07 \ \rpm \ 29.2$ \\
     Random   & $92.19 \ \rpm \ 23.84$ \\
     \bottomrule
@@ -259,7 +259,7 @@ After the training procedure, we evaluate all of the networks, the myopic explor
 
 In this work, we introduce an approach to train agents that perform efficient robotic mapping using reinforcement learning. This work is preliminary in that it only evaluated the approach on a scenario with a simple inverse sensor model. One could imagine switching the sensor model to be, say, a sonar sensor that depends on the robot's orientation. Then rotating the robot could become part of the action space. Since A2C can be used with continuous action spaces as long as there is an analytical log-probability of actions, this method can be generalized to robotic exploration problems that have continuous action spaces. On the contrary, it is not clear how to generalize information gain-based methods or frontier-based methods to continuous action spaces.
 
-In future work, this approach should be applied to problem scenarios where there are multiple agents. This is a challenging, unsolved problem, for which we believe our approach could lead to tangible benefits. We would also like to integrate it with recent work on Active Neural Localization \cite{nal}, leading to a fully trainable SLAM system, the holy grail of autonomous navigation robots.
+In future work, we hope to apply this approach to problem setups with multiple agents. This is a challenging, unsolved problem, for which we believe our approach could lead to tangible benefits. We would also like to integrate it with recent work on Active Neural Localization \cite{nal}, leading to a fully trainable SLAM system, the holy grail of autonomous navigation robots.
 
 \section*{Acknowledgments}
 
